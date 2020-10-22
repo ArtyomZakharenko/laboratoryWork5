@@ -4,9 +4,9 @@
 int SetDimension();
 int ** CreateArray (int, int);
 void FillArray (int **, int, int);
-void ShowArray (int **, int, int);
+void ShowArray (int **, int);
 int ** MultiplyRows(int **, int **, int);
-
+int ** SumColumns (int **, int **, int);
 
 int * SearchingMaxElementInRow(int **, int);
 int * MultiplyRowElements (int **, int);
@@ -24,14 +24,19 @@ int main()
     
     firstArray = CreateArray(arrayDimension, first);
     FillArray(firstArray, arrayDimension, first);
+    ShowArray(firstArray, arrayDimension);
     
     secondArray = CreateArray(arrayDimension, second);
     FillArray(secondArray, arrayDimension, second);
+    ShowArray(secondArray, arrayDimension);
     
-    ShowArray(firstArray, arrayDimension, first);
-    ShowArray(secondArray, arrayDimension, second);
-    
+    printf("paragraph A\n");
     resultArray = MultiplyRows(firstArray, secondArray, arrayDimension);
+    ShowArray(resultArray, arrayDimension);
+    
+    printf("paragraph B\n");
+    resultArray = SumColumns(resultArray, secondArray, arrayDimension);
+    ShowArray(resultArray, arrayDimension);
     
     return 0;
 }
@@ -67,9 +72,9 @@ void FillArray(int ** arr, int size, int number){
     }
 }
 
-void ShowArray (int ** arr, int size, int number){
+void ShowArray (int ** arr, int size){
     int i, j;
-    printf("Your array %d:\n", number);
+    printf("Your array:\n");
     for (i = 0; i < size; i++){
         for(j = 0; j < size; j++){
             printf("%4d", arr[i][j]);
@@ -97,6 +102,19 @@ int ** MultiplyRows (int ** arrOne, int ** arrTwo, int size){
     return resultArr;
 }
 
+int ** SumColumns(int ** arrOne, int ** arrTwo, int size){
+    int * multiplyElements = MultiplyRowElements(arrTwo, size);
+    int i, j;
+    
+    for (j = 0; j < size; j++){
+        for(i = 0; i < size; i++){
+           arrOne[i][j] += multiplyElements[j];
+        }
+    }
+    free(multiplyElements);
+    return arrOne;
+}
+
 int * SearchingMaxElementInRow (int ** arr, int size){
     int i, j;
     int * resultArr = (int *)calloc(size, sizeof(int));
@@ -120,10 +138,6 @@ int * MultiplyRowElements (int ** arr, int size){
     
     for (i = 0; i < size; i++){
         resultArr[i] = 1;
-    }
-    
-    for (i = 0; i < size; i++){
-        printf("%d ", resultArr[i]);
     }
     
     for (i = 0; i < size; i++){
