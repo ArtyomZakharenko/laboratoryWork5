@@ -1,11 +1,3 @@
-/******************************************************************************
-
-                            Online C Compiler.
-                Code, Compile, Run and Debug C program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -15,7 +7,9 @@ void FillArray (int **, int, int);
 void ShowArray (int **, int, int);
 int ** MultiplyRows(int **, int **, int);
 
+
 int * SearchingMaxElementInRow(int **, int);
+int * MultiplyRowElements (int **, int);
 
 int main()
 {
@@ -38,7 +32,7 @@ int main()
     ShowArray(secondArray, arrayDimension, second);
     
     resultArray = MultiplyRows(firstArray, secondArray, arrayDimension);
-    ShowArray(resultArray, arrayDimension, first);
+    
     return 0;
 }
 
@@ -117,5 +111,26 @@ int * SearchingMaxElementInRow (int ** arr, int size){
            } 
         }
     }
+    return resultArr;
+}
+
+int * MultiplyRowElements (int ** arr, int size){
+    int i, j;
+    int * resultArr = (int *)calloc(size, sizeof(int));
+    
+    for (i = 0; i < size; i++){
+        resultArr[i] = 1;
+    }
+    
+    for (i = 0; i < size; i++){
+        printf("%d ", resultArr[i]);
+    }
+    
+    for (i = 0; i < size; i++){
+        for(j = 0; j < size; j++){
+            resultArr[i] *= arr[i][j];
+        }
+    }
+    
     return resultArr;
 }
