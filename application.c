@@ -1,10 +1,19 @@
+/******************************************************************************
+
+                            Online C Compiler.
+                Code, Compile, Run and Debug C program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 
-int ** CreateArray (int *, int);
-void FillArray (int **, int);
+int SetDimension();
+int ** CreateArray (int, int);
+void FillArray (int **, int, int);
 void ShowArray (int **, int, int);
-int ** MultiplyRows(int **, int **, int, int);
+int ** MultiplyRows(int **, int **, int);
 
 int * SearchingMaxElementInRow(int **, int);
 
@@ -17,37 +26,44 @@ int main()
     int **secondArray = NULL;
     int **resultArray = NULL;
     
-    int firstArrayDimension, secondArrayDimension;
+    int arrayDimension = SetDimension();
     
-    firstArray = CreateArray(&firstArrayDimension, first);
-    FillArray(firstArray, firstArrayDimension);
+    firstArray = CreateArray(arrayDimension, first);
+    FillArray(firstArray, arrayDimension, first);
     
-    secondArray = CreateArray(&secondArrayDimension, second);
-    FillArray(secondArray, secondArrayDimension);
+    secondArray = CreateArray(arrayDimension, second);
+    FillArray(secondArray, arrayDimension, second);
     
-    ShowArray(firstArray, firstArrayDimension, first);
-    ShowArray(secondArray, secondArrayDimension, second);
+    ShowArray(firstArray, arrayDimension, first);
+    ShowArray(secondArray, arrayDimension, second);
     
-    resultArray = MultiplyRows(firstArray, secondArray, firstArrayDimension, secondArrayDimension);
-    ShowArray(resultArray, firstArrayDimension, first);
+    resultArray = MultiplyRows(firstArray, secondArray, arrayDimension);
+    ShowArray(resultArray, arrayDimension, first);
     return 0;
 }
 
-int ** CreateArray (int * size, int number){
+int SetDimension(){
+    int size;
+    printf("Enter dimenshion of array: ");
+    scanf("%d", &size);
+    printf("\n");
+    
+    return size;
+}
+
+int ** CreateArray (int size, int number){
     int i;
-    printf("Enter dimenshion of array %d: ", number);
-    scanf("%d", size);
-    int **arr = (int **)calloc(*size, sizeof(int *));
-    for (i = 0; i < *size; i++){
-        arr[i] = (int*)calloc(*size, sizeof(int));
+    int **arr = (int **)calloc(size, sizeof(int *));
+    for (i = 0; i < size; i++){
+        arr[i] = (int*)calloc(size, sizeof(int));
     }
     
     return arr;
 }
 
-void FillArray(int ** arr, int size){
+void FillArray(int ** arr, int size, int number){
     int i, j;
-    printf("Fill array:\n");
+    printf("Fill array %d:\n", number);
     for (i = 0; i < size; i++){
         for(j = 0; j < size; j++){
             printf("row %d, element %d: ", i+1, j+1);
@@ -66,19 +82,20 @@ void ShowArray (int ** arr, int size, int number){
         }
         printf("\n");
     }
+    printf("\n");
 }
 
-int ** MultiplyRows (int ** arrOne, int ** arrTwo, int sizeOne, int sizeTwo){
-    int * maxElements = SearchingMaxElementInRow(arrTwo, sizeTwo);
+int ** MultiplyRows (int ** arrOne, int ** arrTwo, int size){
+    int * maxElements = SearchingMaxElementInRow(arrTwo, size);
     int i,j;
     
-    int ** resultArr = (int **)calloc(sizeOne, sizeof(int));
-    for(i = 0; i < sizeOne; i++){
-        resultArr[i] = (int *)calloc(sizeOne, sizeof(int));
+    int ** resultArr = (int **)calloc(size, sizeof(int));
+    for(i = 0; i < size; i++){
+        resultArr[i] = (int *)calloc(size, sizeof(int));
     }
     
-    for (i = 0; i < sizeOne; i++){
-        for(j = 0; j < sizeOne; j++){
+    for (i = 0; i < size; i++){
+        for(j = 0; j < size; j++){
            resultArr[i][j] = arrOne[i][j] * maxElements[i];
         }
     }
